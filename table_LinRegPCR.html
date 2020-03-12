@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>TableProcessingTools - LinRegPCR</title>
+  <meta name="description" content="Compare LinRegPCR results Pascal with Python versions.">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css">
+</head>
+
+<body>
+
+  <header class="px-0 py-4">
+    <div class="container">
+      <h1 class="display-4 app-name">TableProcessingTools - LinRegPCR</h1>
+        <p class="lead">Compare LinRegPCR results Pascal with Python versions.</p>
+        <a class="plain" target="_blank" href="index.html">
+          <i class="fas fa-home"></i> Home
+        </a>
+        ·
+        <a class="plain" target="_blank" href="https://github.com/untergasser/TableProcessingTools">
+          <i class="fab fa-github-alt"></i> Source
+        </a>
+    </div>
+  </header>
+
+  <main class="container-fluid">
+    <div id="result-error" class="alert alert-danger d-none" role="alert">
+    </div>
+    <ul class="nav nav-fill mb-4" id="mainTab">
+      <li class="nav-item">
+        <a class="nav-link active" href="#main-tab" id="link-main">Main</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#a-tab" id="link-a">File A</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#b-tab" id="link-b">File B</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#dif-tab" id="link-dif">Diff</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#help-tab" id="link-help">Help</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="main-tabs">
+      <div class="tab-pane show active" id="main-tab">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Load files to compare</h5>
+            <div class="form-group">
+              <label for="file-a" id="file-a-text">
+                File A
+              </label>
+              <input type="file" class="form-control-file" id="file-a">
+            </div>
+            <div class="form-group">
+              <label for="file-b" id="file-b-text">
+                File B
+              </label>
+              <input type="file" class="form-control-file" id="file-b">
+            </div>
+            <table style="width:100%;">
+              <tr>
+                <td style="width:24%;">Exclude from mean efficiency calculation:</td>
+                <td style="width:21%;">Samples without plateau phase:</td>
+                <td style="width:6%;">
+                  <select class="form-control" id="choiceExcludeNoPlateau">
+                    <option value="y" selected>yes</option>
+                    <option value="n">no</option>
+                  </select>
+                </td>
+                <td style="width:7%;"></td>
+                <td style="width:32%;">Samples with individual efficiency outside group median:</td>
+                <td style="width:9%;">
+                  <select class="form-control" id="choiceExcludeEfficiency">
+                    <option value="y" selected>yes</option>
+                    <option value="n">no</option>
+                  </select>
+                </td>
+                <td style="width:1%;"></td>
+              </tr>
+            </table>
+            <button type="submit" class="btn btn-outline-primary" id="btn-submit">
+              <i class="fas fa-rocket" style="margin-right: 5px;"></i>
+              Load Files
+            </button>
+          </div>
+        </div>
+        <div id="uuid-link-box"></div>
+      </div>
+
+      <div class="tab-pane" id="a-tab">
+        <div id="a-data"></div><br />
+      </div>
+
+      <div class="tab-pane" id="b-tab">
+        <div id="b-data"></div><br />
+      </div>
+
+      <div class="tab-pane" id="dif-tab">
+        <div id="dif-data"></div><br />
+      </div>
+
+      <div class="tab-pane" id="help-tab">
+        <h4>Application Description</h4>
+        <p> TableProcessingTools - LinRegPCR is a tool to compare LinRegPCR results Pascal with Python versions. It is
+            aware of the correct columns and ignores small float differences.</p>
+        <h4>Accepted Input</h4>
+        <p> The table files can be provided in txt, tsv or csv format (*.txt, *.tsv,
+            and *.csv).</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="float-left">
+        Made by A. Untergasser
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script src="js/lib_texttools.js"></script>
+  <script src="js/app_linregpcr.js"></script>
+
+</body>
+
+</html>
