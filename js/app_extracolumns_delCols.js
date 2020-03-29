@@ -3,9 +3,9 @@
 const submitButton = document.getElementById('btn-submit')
 submitButton.addEventListener('click', runDiff)
 
-const replaceVal = document.getElementById('replaceVal')
+const remHeadA = document.getElementById('remHeadA')
 
-const replaceBy = document.getElementById('replaceBy')
+const remHeadB = document.getElementById('remHeadB')
 
 document.addEventListener("DOMContentLoaded", function() {
     window.fileA = { "fileName": "File (A)"};
@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
 function runDiff() {
     var tableA = readTable("File (A)", window.fileA, 0, 0, "\t", '"');
     var tableB = readTable("File (B)", window.fileB, 0, 0, "\t", '"');
+
+
+    tableA = eraseColumn(tableA, remHeadA.value);
+    tableB = eraseColumn(tableB, remHeadB.value);
 
     var ret = compTableExtraCol(tableA, tableB);
 

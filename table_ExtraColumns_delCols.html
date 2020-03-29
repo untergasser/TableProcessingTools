@@ -15,7 +15,7 @@
   <header class="px-0 py-4">
     <div class="container">
       <h1 class="display-4 app-name">TableProcessingTools - ExtraColumns</h1>
-        <p class="lead">Compare files with extra columns.</p>
+        <p class="lead">Compare files with extra columns and modify values and delete columns.</p>
         <a class="plain" target="_blank" href="index.html">
           <i class="fas fa-home"></i> Home
         </a>
@@ -63,6 +63,14 @@
               </label>
               <input type="file" class="form-control-file" id="file-b">
             </div>
+            <div class="form-group">
+              <label for="remHeadA">Replace all cols with the header in file a (seperated by ;):</label>
+              <input type="text" class="form-control" id="remHeadA" value="sample type;excluded">
+            </div>
+            <div class="form-group">
+              <label for="remHeadB">Replace all cols with the header in file b (seperated by ;):</label>
+              <input type="text" class="form-control" id="remHeadB" value="sample type;excluded">
+            </div>
             <button type="submit" class="btn btn-outline-primary" id="btn-submit">
               <i class="fas fa-rocket" style="margin-right: 5px;"></i>
               Load Files
@@ -109,7 +117,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   <script src="js/lib_texttools.js"></script>
-  <script src="js/app_extracolumns.js"></script>
+  <script src="js/app_extracolumns_delCols.js"></script>
 
 </body>
 

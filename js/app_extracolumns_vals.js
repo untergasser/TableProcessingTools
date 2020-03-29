@@ -17,6 +17,10 @@ function runDiff() {
     var tableA = readTable("File (A)", window.fileA, 0, 0, "\t", '"');
     var tableB = readTable("File (B)", window.fileB, 0, 0, "\t", '"');
 
+
+    tableA = replaceValues(tableA, replaceVal.value, replaceBy.value);
+    tableB = replaceValues(tableB, replaceVal.value, replaceBy.value);
+
     var ret = compTableExtraCol(tableA, tableB);
 
     showHTable("a-data", tableA);

@@ -17,6 +17,13 @@ function runDiff() {
     var tableA = readTable("Pascal (A)", window.fileA, 3, 0, ",", '"');
     var tableB = readTable("Python (B)", window.fileB, 0, 0, "\t", '"');
 
+    tableA = replaceColValues(tableA, 5, "-9.99", "nan");
+    tableA = replaceColValues(tableA, 6, "1.0", "nan");
+    tableA = replaceColValues(tableA, 7, "0.0", "nan");
+    tableA = replaceColValues(tableA, 9, "-1.0", "nan");
+    tableA = replaceColValues(tableA, 9, "0.0", "nan");
+    tableA = replaceColValues(tableA, 14, "-9.99", "nan");
+
     var ret = compTableEqSize(tableA, tableB, lineCompLinRegPCR);
 
     showHTable("a-data", tableA);
@@ -103,6 +110,14 @@ function lineCompLinRegPCR(tabA, rowA, tabB, rowB) {
         ret = compLinRegPCRUse(tabA.dataCells[rowA][16], 5, tabB.dataCells[rowB][44]);
         diff += evalResult(tabA, rowA, 16, tabB, rowB, 44, ret, "head", "");
     }
+
+    ret = compLinRegPCRUse(tabA.dataCells[rowA][16], "A", tabB.dataCells[rowB][47]);
+    diff += evalResult(tabA, rowA, 16, tabB, rowB, 47, ret, "head", "");
+
+    ret = compLinRegPCRUse(tabA.dataCells[rowA][16], "B", tabB.dataCells[rowB][48]);
+    diff += evalResult(tabA, rowA, 16, tabB, rowB, 48, ret, "head", "");
+
+
 
     // Check used "1"
     ret = compLinRegPCRUse(tabA.dataCells[rowA][15], 1, tabB.dataCells[rowB][49]);

@@ -173,6 +173,24 @@ function showHTable(elem, tab) {
     document.getElementById(elem).innerHTML = ret
 }
 
+window.eraseColumn = eraseColumn
+function eraseColumn(tab, colList) {
+    let headerList = colList.split(";")
+    for (var hd = 0; hd < headerList.length; hd++) {
+        let foundHd = -1;
+        for (var col = 0; col < tab.dataCells[0].length; col++) {
+            if (tab.dataCells[0][col] == headerList[hd]) {
+                foundHd = col;
+                break;
+            }
+        }
+        for (var row = 1; row < tab.dataCells.length; row++) {
+            tab.dataCells[row][foundHd] = "--del--"
+        }
+    }
+    return tab
+}
+
 window.replaceValues = replaceValues
 function replaceValues(tab, oVal, nVal) {
     for (var row = 1; row < tab.dataCells.length; row++) {
@@ -180,6 +198,16 @@ function replaceValues(tab, oVal, nVal) {
             if (tab.dataCells[row][col] == oVal) {
                 tab.dataCells[row][col] = nVal
             }
+        }
+    }
+    return tab
+}
+
+window.replaceColValues = replaceColValues
+function replaceColValues(tab, col, oVal, nVal) {
+    for (var row = 1; row < tab.dataCells.length; row++) {
+        if (parseFloat(tab.dataCells[row][col]) - parseFloat(oVal) < 0.000000000001) {
+            tab.dataCells[row][col] = nVal
         }
     }
     return tab
