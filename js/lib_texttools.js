@@ -136,6 +136,22 @@ function readTable(fileName, text, offset, rowIDpos, colSep, txtMark) {
     return retFile
 }
 
+window.compTableFloatHeader = compTableFloatHeader
+function compTableFloatHeader(tab, precis) {
+    var keysA = Object.keys(tab.colLookup);
+    var nKeys = {};
+    for (var i = 0; i < keysA.length; i++) {
+        if (keysA[i].indexOf('.') != -1) {
+            tab.dataCells[0][tab.colLookup[keysA[i]]] = parseFloat(keysA[i]).toFixed(precis)
+            nKeys[parseFloat(keysA[i]).toFixed(precis)] = tab.colLookup[keysA[i]]
+        } else {
+            nKeys[keysA[i]] = tab.colLookup[keysA[i]]
+        }
+    }
+    tab.colLookup = nKeys
+    return tab
+}
+
 window.showTable = showTable
 function showTable(elem, tab) {
     let ret = '<table class="table table-bordered">\n'
@@ -233,6 +249,48 @@ function compTableExtraCol(tabA, tabB) {
     return diffText
 }
 
+window.compTableExtraColFloat = compTableExtraColFloat
+function compTableExtraColFloat(tabA, tabB, precis) {
+    var keysA = Object.keys(tabA.colLookup);
+    var commonKeys = [];
+    for (var i = 0; i < keysA.length; i++) {
+        if (keysA[i] in tabB.colLookup) {
+            commonKeys.push(keysA[i])
+        }
+    }
+    let minRows = Math.min(tabA.dataCells.length, tabB.dataCells.length);
+    let diffText = "";
+    for (var row = 1; row < minRows; row++) {
+        for (var i = 0; i < commonKeys.length; i++) {
+                // compFloat(varA, comA, varB, comB, precis)
+            let ret = compFloat(tabA.dataCells[row][tabA.colLookup[commonKeys[i]]], false, tabB.dataCells[row][tabB.colLookup[commonKeys[i]]], false, precis);
+            diffText += evalResult(tabA, row, tabA.colLookup[commonKeys[i]], tabB, row, tabB.colLookup[commonKeys[i]], ret, "head", "");
+        }
+    }
+    return diffText
+}
+
+window.compTableExtraColExpoFloat = compTableExtraColExpoFloat
+function compTableExtraColExpoFloat(tabA, tabB, precis) {
+    var keysA = Object.keys(tabA.colLookup);
+    var commonKeys = [];
+    for (var i = 0; i < keysA.length; i++) {
+        if (keysA[i] in tabB.colLookup) {
+            commonKeys.push(keysA[i])
+        }
+    }
+    let minRows = Math.min(tabA.dataCells.length, tabB.dataCells.length);
+    let diffText = "";
+    for (var row = 1; row < minRows; row++) {
+        for (var i = 0; i < commonKeys.length; i++) {
+                // compFloat(varA, comA, varB, comB, precis)
+            let ret = compFloatExp(tabA.dataCells[row][tabA.colLookup[commonKeys[i]]], false, tabB.dataCells[row][tabB.colLookup[commonKeys[i]]], false, precis);
+            diffText += evalResult(tabA, row, tabA.colLookup[commonKeys[i]], tabB, row, tabB.colLookup[commonKeys[i]], ret, "head", "");
+        }
+    }
+    return diffText
+}
+
 window.compTableEqSize = compTableEqSize
 function compTableEqSize(tabA, tabB, lineCompFunct) {
     let minRows = Math.min(tabA.dataCells.length, tabB.dataCells.length);
@@ -266,8 +324,7 @@ function compFloat(varA, comA, varB, comB, precis) {
 
     let flA = parseFloat(varA);
     let flB = parseFloat(varB);
-    let pre = Math.pow(10, precis);
-
+    let pre = Math.pow(10, parseFloat(precis));
     if (Math.abs(flA - flB) < pre) {
         return "a";
     }
