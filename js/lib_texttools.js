@@ -229,6 +229,20 @@ function replaceColValues(tab, col, oVal, nVal) {
     return tab
 }
 
+window.compSameTable = compSameTable
+function compSameTable(tabA, tabB) {
+    let minRows = Math.min(tabA.dataCells.length, tabB.dataCells.length);
+    let diffText = "";
+    for (var row = 1; row < minRows; row++) {
+        let minCols = Math.min(tabA.dataCells[row].length, tabB.dataCells[row].length);
+        for (var col = 0; col < minCols; col++) {
+            let ret = compString(tabA.dataCells[row][col], tabB.dataCells[row][col]);
+            diffText += evalResult(tabA, row, col, tabB, row, col, ret, "head", "");
+        }
+    }
+    return diffText
+}
+
 window.compTableExtraCol = compTableExtraCol
 function compTableExtraCol(tabA, tabB) {
     var keysA = Object.keys(tabA.colLookup);
