@@ -246,14 +246,30 @@ function compSameTable(tabA, tabB) {
 window.compTableExtraCol = compTableExtraCol
 function compTableExtraCol(tabA, tabB) {
     var keysA = Object.keys(tabA.colLookup);
+    var keysB = Object.keys(tabB.colLookup);
     var commonKeys = [];
+    var allKeys = [];
     for (var i = 0; i < keysA.length; i++) {
         if (keysA[i] in tabB.colLookup) {
             commonKeys.push(keysA[i])
         }
+        allKeys.push(keysA[i])
+    }
+    for (var i = 0; i < keysB.length; i++) {
+        if (!(keysB[i] in allKeys)) {
+            allKeys.push(keysB[i])
+        }
+    }
+    let diffText = "";
+    for (var i = 0; i < allKeys.length; i++) {
+        if (!(allKeys[i] in tabA.colLookup)) {
+            diffText += "Column \"" + allKeys[i] + "\" missing in file A <br /><br />"
+        }
+        if (!(allKeys[i] in tabB.colLookup)) {
+            diffText += "Column \"" + allKeys[i] + "\" missing in file B <br /><br />"
+        }
     }
     let minRows = Math.min(tabA.dataCells.length, tabB.dataCells.length);
-    let diffText = "";
     for (var row = 1; row < minRows; row++) {
         for (var i = 0; i < commonKeys.length; i++) {
             let ret = compString(tabA.dataCells[row][tabA.colLookup[commonKeys[i]]], tabB.dataCells[row][tabB.colLookup[commonKeys[i]]]);
